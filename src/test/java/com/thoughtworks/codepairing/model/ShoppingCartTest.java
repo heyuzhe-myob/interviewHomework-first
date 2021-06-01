@@ -3,6 +3,7 @@ package com.thoughtworks.codepairing.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -16,13 +17,13 @@ public class ShoppingCartTest {
     Customer customer;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         customer = new Customer("test");
     }
 
     @Test
     public void shouldCalculatePriceWithNoDiscount() {
-        List<Product> products = asList(new Product(PRICE, "", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -31,7 +32,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointsWithNoDiscount() {
-        List<Product> products = asList(new Product(PRICE, "", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -40,7 +41,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculatePriceFor10PercentDiscount() {
-        List<Product> products = asList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -49,7 +50,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointsFor10PercentDiscount() {
-        List<Product> products = asList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -58,7 +59,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculatePriceFor15PercentDiscount() {
-        List<Product> products = asList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -67,7 +68,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointsFor15PercentDiscount() {
-        List<Product> products = asList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
