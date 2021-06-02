@@ -18,8 +18,8 @@ public class ShoppingCart {
 
     public Order checkout() {
         double totalPrice = 0;
-
         int loyaltyPointsEarned = 0;
+
         for (Product product : products) {
             double discount = 0;
             if (product.getProductCode().startsWith("DIS_10")) {
@@ -28,6 +28,9 @@ public class ShoppingCart {
             } else if (product.getProductCode().startsWith("DIS_15")) {
                 discount = (product.getPrice() * 0.15);
                 loyaltyPointsEarned += (product.getPrice() / 15);
+            } else if (product.getProductCode().startsWith("DIS_20")) {
+                discount = (product.getPrice() * 0.2);
+                loyaltyPointsEarned += (product.getPrice() / 20);
             } else {
                 loyaltyPointsEarned += (product.getPrice() / 5);
             }
@@ -38,8 +41,16 @@ public class ShoppingCart {
         return new Order(totalPrice, loyaltyPointsEarned);
     }
 
+//    public Order bulkBuyCheckout(){
+//        double totalPrice = 0;
+//        int loyaltyPointsEarned = 0;
+//        for (Product product : products) {
+//            if (product.getProductCode().startsWith("BULK_BUY_2_GET_1"));
+//        }
+//    }
+
     @Override
     public String toString() {
-        return "Customer: " + customer.getName() + "\n" + "Bought:  \n" + products.stream().map(p -> "- " + p.getName()+ ", "+p.getPrice()).collect(Collectors.joining("\n"));
+        return "Customer: " + customer.getName() + "\n" + "Bought:  \n" + products.stream().map(p -> "- " + p.getName() + ", " + p.getPrice()).collect(Collectors.joining("\n"));
     }
 }
