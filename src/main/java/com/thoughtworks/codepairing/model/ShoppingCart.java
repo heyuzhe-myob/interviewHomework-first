@@ -22,32 +22,32 @@ public class ShoppingCart {
 
         for (Product product : products) {
             double discount = 0;
+            if (product.getProductCode().startsWith("BULK_BUY_2_GET_1")) {
+                if (product.getQuantity() > 2) {
+                    discount = product.getQuantity() / 3 * product.getPrice();
+                }
+            }
             if (product.getProductCode().startsWith("DIS_10")) {
-                discount = (product.getPrice() * 0.1);
-                loyaltyPointsEarned += (product.getPrice() / 10);
+                discount = (product.getPrice() * product.getQuantity() * 0.1);
+                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 10);
             } else if (product.getProductCode().startsWith("DIS_15")) {
-                discount = (product.getPrice() * 0.15);
-                loyaltyPointsEarned += (product.getPrice() / 15);
+                discount = (product.getPrice() * product.getQuantity() * 0.15);
+                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 15);
             } else if (product.getProductCode().startsWith("DIS_20")) {
-                discount = (product.getPrice() * 0.2);
-                loyaltyPointsEarned += (product.getPrice() / 20);
+                discount = (product.getPrice() * product.getQuantity() * 0.2);
+                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 20);
             } else {
-                loyaltyPointsEarned += (product.getPrice() / 5);
+                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 5);
             }
 
-            totalPrice += product.getPrice() - discount;
+            totalPrice += product.getPrice() * product.getQuantity() - discount;
         }
-
-        return new Order(totalPrice, loyaltyPointsEarned);
+        return new Order(getDiscountForTotalPriceOver500(totalPrice), loyaltyPointsEarned);
     }
 
-//    public Order bulkBuyCheckout(){
-//        double totalPrice = 0;
-//        int loyaltyPointsEarned = 0;
-//        for (Product product : products) {
-//            if (product.getProductCode().startsWith("BULK_BUY_2_GET_1"));
-//        }
-//    }
+    public double getDiscountForTotalPriceOver500(double totalPrice) {
+        return totalPrice > 500 ? totalPrice * 0.95 : totalPrice;
+    }
 
     @Override
     public String toString() {
