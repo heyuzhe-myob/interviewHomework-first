@@ -13,7 +13,8 @@ public class ShoppingCartTest {
 
     public static final int PRICE = 100;
     public static final String PRODUCT = "Product";
-    public static final String EXTRAPRODUCT="extraProduct";
+    public static final String EXTRAPRODUCT1 = "extraProduct1";
+    public static final String EXTRAPRODUCT2 = "extraProduct2";
 
     Customer customer;
 
@@ -24,43 +25,43 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculatePriceWithNoDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT, 2));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
-        assertEquals(200.0, order.getTotalPrice(), 0.0);
+        assertEquals(100.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
     public void shouldCalculateLoyaltyPointsWithNoDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT, 2));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
-        assertEquals(40, order.getLoyaltyPoints());
+        assertEquals(20, order.getLoyaltyPoints());
     }
 
     @Test
     public void shouldCalculatePriceFor10PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT, 3));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
-        assertEquals(270.0, order.getTotalPrice(), 0.0);
+        assertEquals(90.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
     public void shouldCalculateLoyaltyPointsFor10PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT, 3));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_10_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
-        assertEquals(30, order.getLoyaltyPoints());
+        assertEquals(10, order.getLoyaltyPoints());
     }
 
     @Test
     public void shouldCalculatePriceFor15PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT, 1));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -69,7 +70,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointsFor15PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT, 1));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_15_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -78,7 +79,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculatePriceFor20PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_20_ABCD", PRODUCT, 1));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -87,7 +88,7 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointsFor20PercentDiscount() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_20_ABCD", PRODUCT, 1));
+        List<Product> products = Collections.singletonList(new Product(PRICE, "DIS_20_ABCD", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
 
@@ -95,25 +96,30 @@ public class ShoppingCartTest {
     }
 
     @Test
-    public void shouldCalculatePriceWhenBulkBuyWithBuyingTwoAndGetThree() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT, 5));
-        ShoppingCart cart = new ShoppingCart(customer, products);
-        Order order = cart.checkout();
-        assertEquals(400.0, order.getTotalPrice(), 0.0);
-    }
-
-    @Test
     public void shouldCalculatePriceWhenBuyTwoForBuyingTwoAndGetThree() {
-        List<Product> products = Collections.singletonList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT, 2));
+        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT), new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
         assertEquals(200.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
+    public void shouldCalculatePriceWhenBulkBuyWithBuyingTwoAndGetThree() {
+        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT));
+        ShoppingCart cart = new ShoppingCart(customer, products);
+        Order order = cart.checkout();
+        assertEquals(300.0, order.getTotalPrice(), 0.0);
+    }
+
+    @Test
     public void shouldCalculatePriceForTwoProductWithNoDiscountOneProductWith10Discount() {
-        List<Product> products = asList(new Product(PRICE, "", PRODUCT, 2),
-                new Product(PRICE, "DIS_10_ABCD", PRODUCT, 1));
+        List<Product> products = asList(new Product(PRICE, "", PRODUCT),
+                new Product(PRICE, "", PRODUCT),
+                new Product(PRICE, "DIS_10_ABCD", EXTRAPRODUCT1));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
         assertEquals(290.0, order.getTotalPrice(), 0.0);
@@ -121,8 +127,9 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculateLoyaltyPointForTwoProductWithNoDiscountOneProductWith10Discount() {
-        List<Product> products = asList(new Product(PRICE, "", PRODUCT, 2),
-                new Product(PRICE, "DIS_10_ABCD", PRODUCT, 1));
+        List<Product> products = asList(new Product(PRICE, "", PRODUCT),
+                new Product(PRICE, "", PRODUCT),
+                new Product(PRICE, "DIS_10_ABCD", EXTRAPRODUCT1));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
         assertEquals(50, order.getLoyaltyPoints(), 0.0);
@@ -130,28 +137,45 @@ public class ShoppingCartTest {
 
     @Test
     public void shouldCalculatePriceForBulkBuyAndNonBulkBuy() {
-        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT, 7), new Product(PRICE, "DIS_10_ABCD", PRODUCT, 1));
+        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "DIS_10_ABCD", EXTRAPRODUCT1));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
-        assertEquals(560.5, order.getTotalPrice(), 0.0);
+        assertEquals(490.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
     public void shouldHave5DiscountWhenTotalPriceIsOver500() {
-        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT, 7), new Product(PRICE, "DIS_10_ABCD", PRODUCT, 1));
+        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "", EXTRAPRODUCT1),
+                new Product(PRICE, "", EXTRAPRODUCT1),
+                new Product(PRICE, "", EXTRAPRODUCT1),
+                new Product(PRICE, "", EXTRAPRODUCT1),
+                new Product(PRICE, "", EXTRAPRODUCT1),
+                new Product(PRICE, "", EXTRAPRODUCT1));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
-        assertEquals(560.5, order.getTotalPrice(), 0.0);
+        assertEquals(665.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
     public void shouldCalculatePriceForComplexBuy() {
-        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT, 7),
-                new Product(PRICE, "BULK_BUY_2_GET_1", EXTRAPRODUCT, 2),
-                new Product(PRICE, "DIS_20_ABCD", PRODUCT, 1),
-                new Product(PRICE, "DIS_10_ABCD", PRODUCT, 1));
+        List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "DIS_20_ABCD", EXTRAPRODUCT1),
+                new Product(PRICE, "DIS_10_ABCD", EXTRAPRODUCT2));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
-        assertEquals(826.5, order.getTotalPrice(), 0.0);
+        assertEquals(636.5, order.getTotalPrice(), 0.0);
     }
 }

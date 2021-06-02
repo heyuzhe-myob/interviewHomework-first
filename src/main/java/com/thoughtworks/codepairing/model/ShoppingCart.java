@@ -1,6 +1,9 @@
 package com.thoughtworks.codepairing.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ShoppingCart {
@@ -16,35 +19,68 @@ public class ShoppingCart {
         products.add(product);
     }
 
+    private HashMap<String, Integer> getProductQuantityMap() {
+        HashMap<String, Integer> productQuantityMap = new HashMap<>();
+        for (Product p : products) {
+            if (!productQuantityMap.containsKey(p.getName())) {
+                productQuantityMap.put(p.getName(), 1);
+            } else {
+                int currentQuantity = productQuantityMap.get(p.getName());
+                productQuantityMap.put(p.getName(), currentQuantity + 1);
+            }
+        }
+        return productQuantityMap;
+    }
+
     public Order checkout() {
         double totalPrice = 0;
         int loyaltyPointsEarned = 0;
-
-        for (Product product : products) {
+        Map<String, Integer> productQuantityMap = getProductQuantityMap();
+        
+        for (String productName : productQuantityMap.keySet()){
+            int quantity = productQuantityMap.get(productName);
             double discount = 0;
-            if (product.getProductCode().startsWith("BULK_BUY_2_GET_1")) {
-                if (product.getQuantity() > 2) {
-                    discount = product.getQuantity() / 3 * product.getPrice();
+            if (getProductCodeThroughProductName(productName).startsWith("BULK_BUY_2_GET_1")) {
+                if (quantity > 2) {
+                    discount = quantity / 3 * getPriceThroughProductName(productName);
                 }
             }
-            if (product.getProductCode().startsWith("DIS_10")) {
-                discount = (product.getPrice() * product.getQuantity() * 0.1);
-                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 10);
-            } else if (product.getProductCode().startsWith("DIS_15")) {
-                discount = (product.getPrice() * product.getQuantity() * 0.15);
-                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 15);
-            } else if (product.getProductCode().startsWith("DIS_20")) {
-                discount = (product.getPrice() * product.getQuantity() * 0.2);
-                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 20);
+            if (getProductCodeThroughProductName(productName).startsWith("DIS_10")) {
+                discount = (getPriceThroughProductName(productName) * quantity * 0.1);
+                loyaltyPointsEarned += (getPriceThroughProductName(productName) * quantity / 10);
+            } else if (getProductCodeThroughProductName(productName).startsWith("DIS_15")) {
+                discount = (getPriceThroughProductName(productName) * quantity * 0.15);
+                loyaltyPointsEarned += (getPriceThroughProductName(productName) * quantity / 15);
+            } else if (getProductCodeThroughProductName(productName).startsWith("DIS_20")) {
+                discount = (getPriceThroughProductName(productName) * quantity * 0.2);
+                loyaltyPointsEarned += (getPriceThroughProductName(productName) * quantity / 20);
             } else {
-                loyaltyPointsEarned += (product.getPrice() * product.getQuantity() / 5);
+                loyaltyPointsEarned += (getPriceThroughProductName(productName) * quantity / 5);
             }
-
-            totalPrice += product.getPrice() * product.getQuantity() - discount;
+            totalPrice += getPriceThroughProductName(productName) * quantity - discount;
         }
+
         return new Order(getDiscountForTotalPriceOver500(totalPrice), loyaltyPointsEarned);
     }
 
+    public double getPriceThroughProductName(String productName){
+        for (Product product : products) {
+            if (product.getName().equals(productName)){
+                return product.getPrice();
+            }
+        }
+        return 0.0;
+    }
+
+    public String getProductCodeThroughProductName(String productName){
+        for (Product product : products) {
+            if (product.getName().equals(productName)){
+                return product.getProductCode();
+            }
+        }
+        return "";
+    }
+    
     public double getDiscountForTotalPriceOver500(double totalPrice) {
         return totalPrice > 500 ? totalPrice * 0.95 : totalPrice;
     }
