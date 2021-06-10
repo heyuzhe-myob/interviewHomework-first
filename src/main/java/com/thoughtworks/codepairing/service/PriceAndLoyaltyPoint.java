@@ -1,4 +1,4 @@
-package com.thoughtworks.codepairing.model;
+package com.thoughtworks.codepairing.service;
 
 import com.thoughtworks.codepairing.repository.DiscountStrategy;
 

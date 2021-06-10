@@ -2,7 +2,7 @@ package com.thoughtworks.codepairing;
 
 import com.thoughtworks.codepairing.model.Customer;
 import com.thoughtworks.codepairing.model.Product;
-import com.thoughtworks.codepairing.model.ShoppingCart;
+import com.thoughtworks.codepairing.service.ShoppingCart;
 import com.thoughtworks.codepairing.model.Order;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package com.thoughtworks.codepairing.model;
 
+import com.thoughtworks.codepairing.service.ShoppingCart;
 import org.junit.Before;
 import org.junit.Test;
 

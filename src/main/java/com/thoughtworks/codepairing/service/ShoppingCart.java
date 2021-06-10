@@ -1,6 +1,9 @@
-package com.thoughtworks.codepairing.model;
+package com.thoughtworks.codepairing.service;
 
 import com.thoughtworks.codepairing.factory.StrategyFactory;
+import com.thoughtworks.codepairing.model.Customer;
+import com.thoughtworks.codepairing.model.Order;
+import com.thoughtworks.codepairing.model.Product;
 import com.thoughtworks.codepairing.repository.DiscountStrategy;
 
 import java.util.HashMap;
