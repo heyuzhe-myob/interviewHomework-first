@@ -109,10 +109,12 @@ public class ShoppingCartTest {
         List<Product> products = asList(new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
                 new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
                 new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
-                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT));
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", "asdad"));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
-        assertEquals(300.0, order.getTotalPrice(), 0.0);
+        assertEquals(500.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
@@ -143,10 +145,11 @@ public class ShoppingCartTest {
                 new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
                 new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
                 new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
-                new Product(PRICE, "DIS_10_ABCD", EXTRAPRODUCT1));
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT),
+                new Product(PRICE, "BULK_BUY_2_GET_1", PRODUCT));
         ShoppingCart cart = new ShoppingCart(customer, products);
         Order order = cart.checkout();
-        assertEquals(490.0, order.getTotalPrice(), 0.0);
+        assertEquals(570.0, order.getTotalPrice(), 0.0);
     }
 
     @Test
