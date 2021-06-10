@@ -1,4 +1,11 @@
-package com.thoughtworks.codepairing.model;
+package com.thoughtworks.codepairing.factory;
+
+import com.thoughtworks.codepairing.impl.BuyTwoGetOne;
+import com.thoughtworks.codepairing.impl.DisFifteenPercent;
+import com.thoughtworks.codepairing.impl.DisTenPercent;
+import com.thoughtworks.codepairing.impl.DisTwentyPercent;
+import com.thoughtworks.codepairing.impl.NoDiscount;
+import com.thoughtworks.codepairing.repository.DiscountStrategy;
 
 public class StrategyFactory {
 

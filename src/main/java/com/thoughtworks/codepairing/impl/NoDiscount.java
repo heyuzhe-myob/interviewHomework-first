@@ -1,4 +1,6 @@
-package com.thoughtworks.codepairing.model;
+package com.thoughtworks.codepairing.impl;
+
+import com.thoughtworks.codepairing.repository.DiscountStrategy;
 
 public class NoDiscount implements DiscountStrategy {
     @Override

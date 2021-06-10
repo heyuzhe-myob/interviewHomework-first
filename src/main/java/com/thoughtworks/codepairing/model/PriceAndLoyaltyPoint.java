@@ -1,5 +1,7 @@
 package com.thoughtworks.codepairing.model;
 
+import com.thoughtworks.codepairing.repository.DiscountStrategy;
+
 public class PriceAndLoyaltyPoint {
     private DiscountStrategy discountStrategy;
 

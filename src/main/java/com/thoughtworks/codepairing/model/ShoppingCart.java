@@ -1,5 +1,8 @@
 package com.thoughtworks.codepairing.model;
 
+import com.thoughtworks.codepairing.factory.StrategyFactory;
+import com.thoughtworks.codepairing.repository.DiscountStrategy;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

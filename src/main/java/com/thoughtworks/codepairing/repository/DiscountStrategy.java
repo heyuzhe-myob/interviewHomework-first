@@ -1,4 +1,4 @@
-package com.thoughtworks.codepairing.model;
+package com.thoughtworks.codepairing.repository;
 
 public interface DiscountStrategy {
     double calculateTotalPrice(double price, int quantity);
